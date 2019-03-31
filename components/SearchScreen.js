@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, TextInput, View, TouchableNativeFeedback, Alert } from 'react-native';
+import { StyleSheet, Text, TextInput, View, TouchableNativeFeedback } from 'react-native';
 
 export default class SearchScreen extends React.Component {
     constructor(props) {
@@ -14,10 +14,6 @@ export default class SearchScreen extends React.Component {
         header: null
     };
 
-    _onPressButton() {
-        Alert.alert('You tapped the button!')
-      }
-
     render() {
         return (
             <View style = {styles.container}>
@@ -28,7 +24,9 @@ export default class SearchScreen extends React.Component {
                     onFocus = {() => this.setState({placeholder: ''})}
                     onChangeText = {(text) => this.setState({text})}
                 />
-                <TouchableNativeFeedback onPress = {this._onPressButton}>
+                <TouchableNativeFeedback onPress = {() => this.props.navigation.navigate('Results', {
+                    searchTerm: this.state.text
+                })}>
                     <View style = {styles.button}>
                         <Text style = {styles.buttonText}> SEARCH </Text>
                     </View>
@@ -50,7 +48,7 @@ const styles = StyleSheet.create({
         color: 'dimgray',
         textAlign: 'center',
         paddingTop: 200,
-        paddingBottom: 10
+        paddingBottom: 20
     },
     button: {
         width: 180,
