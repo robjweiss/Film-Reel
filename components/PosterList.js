@@ -14,6 +14,7 @@ export default class PosterList extends React.Component {
                 <FlatList
                     data = {this.props.movies}
                     renderItem = {({item}) => <Poster movie = {item}/>}
+                    initialNumToRender = {3}
                     horizontal = {true}
                     showsHorizontalScrollIndicator = {false}
                     keyExtractor = {(item, index) => item.id.toString()}
