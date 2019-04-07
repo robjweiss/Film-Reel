@@ -9,15 +9,15 @@ export default class PosterList extends React.Component {
 
     render() {
         return (
-            <View style = {styles.container}>
-                <Text style = {styles.header}> {this.props.header} </Text>
+            <View style={styles.container}>
+                <Text style={styles.header}> {this.props.header} </Text>
                 <FlatList
-                    data = {this.props.movies}
-                    renderItem = {({item}) => <Poster movie = {item}/>}
-                    initialNumToRender = {3}
-                    horizontal = {true}
-                    showsHorizontalScrollIndicator = {false}
-                    keyExtractor = {(item, index) => item.id.toString()}
+                    data={this.props.movies}
+                    renderItem={({ item }) => <Poster movie={item} />}
+                    initialNumToRender={3}
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    keyExtractor={(item, index) => item.id.toString()}
                 />
             </View>
         );

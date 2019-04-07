@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, TextInput, View, ImageBackground, ActivityIndicator } from 'react-native';
+import { StyleSheet, TextInput, View, ImageBackground, ActivityIndicator, Alert } from 'react-native';
 import PosterList from '../components/PosterList';
 import tmdb from '../config/tmdb';
 const apiKey = tmdb.apiKey;
@@ -11,7 +11,8 @@ export default class SearchScreen extends React.Component {
         this.state = {
             text: '',
             placeholder: "Searh by Title, Genre, Actor...",
-            isLoading: true
+            isLoading: true,
+            networkError: false
         };
     }
 
@@ -21,10 +22,10 @@ export default class SearchScreen extends React.Component {
 
     async componentDidMount() {
         try {
-            const popularResponse = await fetch (
+            const popularResponse = await fetch(
                 'https://api.themoviedb.org/3/movie/popular?api_key=' + apiKey + '&language=en-US&page=1'
             );
-            const playingResponse = await fetch (
+            const playingResponse = await fetch(
                 'https://api.themoviedb.org/3/movie/now_playing?api_key=' + apiKey + '&language=en-US&page=1'
             );
 
@@ -44,47 +45,55 @@ export default class SearchScreen extends React.Component {
                 playingMovies: playingResponseJSON.results
             });
 
-            return popularResponseJSON.results;
+            return true;
         } catch (error) {
-            console.error(error);
+            this.setState({
+                networkError: true
+            });
+        }
+    }
+
+    _onSubmitSearch = () => {
+        if (this.state.text !== '') {
+            this.props.navigation.navigate('Results', {
+                searchTerm: this.state.text
+            });
         }
     }
 
     render() {
-        if(this.state.isLoading){
-            return(
-              <View style={{flex: 1, padding: 20}}>
-                <ActivityIndicator/>
-              </View>
+        if (this.state.isLoading || this.state.networkError) {
+            return (
+                <View style={{ flex: 1, padding: 20 }}>
+                    <ActivityIndicator />
+                </View>
             )
-          }
+        }
 
         return (
             <ImageBackground
-                source = {require('../assets/background.jpg')}
-                style = {styles.background}
+                source={require('../assets/background.jpg')}
+                style={styles.background}
             >
-                <View style = {styles.container}>
-                    <View style = {styles.searchBarContainer}>
+                <View style={styles.container}>
+                    <View style={styles.searchBarContainer}>
                         <TextInput
-                            style = {styles.searchBar}
-                            underlineColorAndroid = 'transparent'
-                            placeholder = {this.state.placeholder}
-                            onFocus = {() => this.setState({placeholder: ''})}
-                            onChangeText = {(text) => this.setState({text})}
-                            returnKeyType = 'search'
-                            onSubmitEditing = {() => this.props.navigation.navigate('Results', {
-                                searchTerm: this.state.text
-                            })}
+                            style={styles.searchBar}
+                            underlineColorAndroid='transparent'
+                            placeholder={this.state.placeholder}
+                            onFocus={() => this.setState({ placeholder: '' })}
+                            onChangeText={(text) => this.setState({ text })}
+                            returnKeyType='search'
+                            onSubmitEditing={this._onSubmitSearch}
                         />
                     </View>
                     <PosterList
-                        header = 'Popular'
-                        movies = {this.state.popularMovies}
+                        header='Popular'
+                        movies={this.state.popularMovies}
                     />
                     <PosterList
-                        header = 'Now Playing'
-                        movies = {this.state.playingMovies}
+                        header='Now Playing'
+                        movies={this.state.playingMovies}
                     />
                 </View>
             </ImageBackground>
@@ -101,7 +110,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center'
-      },
+    },
     searchBarContainer: {
         alignItems: 'center',
         backgroundColor: 'rgba(206, 201, 201, 0.5)',

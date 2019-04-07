@@ -9,13 +9,14 @@ class Poster extends React.Component {
 
     render() {
         return (
-            <TouchableNativeFeedback onPress = {() => this.props.navigation.navigate('Movie', {
+            <TouchableNativeFeedback onPress={() => this.props.navigation.navigate('Movie', {
                 id: this.props.movie.id,
+                title: this.props.movie.title,
                 posterPath: this.props.movie.poster_path
             })}>
                 <Image
-                    source = {{uri: 'https://image.tmdb.org/t/p/w154/' + this.props.movie.poster_path}}
-                    style = {styles.posterImage}
+                    source={{ uri: 'https://image.tmdb.org/t/p/w154/' + this.props.movie.poster_path }}
+                    style={styles.posterImage}
                 />
             </TouchableNativeFeedback>
         );
