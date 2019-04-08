@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, TextInput, View, ImageBackground, ActivityIndicator, Alert } from 'react-native';
+import { StyleSheet, TextInput, View, ImageBackground, ActivityIndicator, Text, TouchableNativeFeedback, Image } from 'react-native';
 import PosterList from '../components/PosterList';
 import tmdb from '../config/tmdb';
 const apiKey = tmdb.apiKey;
@@ -76,6 +76,11 @@ export default class SearchScreen extends React.Component {
                 style={styles.background}
             >
                 <View style={styles.container}>
+                <Image
+                    source={require('../assets/icon-title.png')}
+                    style={styles.title}
+                    resizeMode='contain'
+                />
                     <View style={styles.searchBarContainer}>
                         <TextInput
                             style={styles.searchBar}
@@ -95,6 +100,11 @@ export default class SearchScreen extends React.Component {
                         header='Now Playing'
                         movies={this.state.playingMovies}
                     />
+                    <TouchableNativeFeedback
+                        onPress={() => {this.props.navigation.navigate('About')}}
+                    >
+                        <Text style={styles.about}>About</Text>
+                    </TouchableNativeFeedback>
                 </View>
             </ImageBackground>
         );
@@ -111,12 +121,17 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center'
     },
+    title: {
+        width: 250,
+        height: 200,
+        marginTop: 30
+    },
     searchBarContainer: {
         alignItems: 'center',
         backgroundColor: 'rgba(206, 201, 201, 0.5)',
         width: 300,
-        marginTop: 150,
-        marginBottom: 100,
+        marginTop: 5,
+        marginBottom: 90,
         padding: 10,
         borderRadius: 25
     },
@@ -124,5 +139,11 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'center',
         color: 'white'
+    },
+    about: {
+        color: 'rgba(206, 201, 201, 0.5)',
+        position: 'absolute',
+        bottom: 0,
+        margin: 5
     }
 });

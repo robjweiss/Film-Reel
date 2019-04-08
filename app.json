@@ -1,15 +1,17 @@
 {
   "expo": {
     "name": "Film Reel",
+    "description": "A mobile TMDB client",
     "slug": "film-reel",
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "platforms": [
-      "ios",
       "android"
     ],
     "version": "1.0.0",
+    "githubUrl": "https://github.com/robjweiss/Film-Reel",
     "orientation": "portrait",
+    "primaryColor": "#FFCD55",
     "icon": "./assets/icon.png",
     "splash": {
       "backgroundColor": "#FFCD55",
