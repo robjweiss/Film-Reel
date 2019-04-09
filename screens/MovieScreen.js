@@ -48,7 +48,7 @@ export default class MovieScreen extends React.Component {
             movieResponseJSON.genres = genresString.slice(0, -2);
 
             // Removing cast members without pictures from the listing
-            filteredCast = castResponseJSON.cast.filter(castMember => castMember.profile_path !== null);
+            const filteredCast = castResponseJSON.cast.filter(castMember => castMember.profile_path !== null);
 
             this.setState({
                 isLoading: false,
