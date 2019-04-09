@@ -40,6 +40,13 @@ export default class MovieScreen extends React.Component {
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             movieResponseJSON.release_date = releaseDate.toLocaleDateString('en-US', options);
 
+            // Converting array of Genre objects to a string
+            let genresString = '';
+            movieResponseJSON.genres.forEach(genre => {
+                genresString += genre.name + ', ';
+            });
+            movieResponseJSON.genres = genresString.slice(0, -2);
+
             // Removing cast members without pictures from the listing
             filteredCast = castResponseJSON.cast.filter(castMember => castMember.profile_path !== null);
 
@@ -85,7 +92,7 @@ export default class MovieScreen extends React.Component {
                     <Text style={styles.header}>Released</Text>
                     <Text style={styles.value}>{this.state.details.release_date}</Text>
                     <Text style={styles.header}>Genres</Text>
-                    <Text style={styles.value}>{this.state.details.genres[0].name}, {this.state.details.genres[1].name}, {this.state.details.genres[2].name}</Text>
+                    <Text style={styles.value}>{this.state.details.genres}</Text>
                     <Text style={styles.header}>Cast</Text>
                     <FlatList
                         data={this.state.cast}
